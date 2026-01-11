@@ -6,11 +6,15 @@ Green='\033[0;32m'        # Green
 
 # add your boards' functions here
 build-test(){
-    base-build nrfmicro_13 test-board
+    base-build nice_nano test-board
+}
+
+build-nn-reset(){
+    base-build nice_nano settings_reset
 }
 
 build-nrfmicro-reset(){
-    base-build nrfmicro_13 settings_reset
+    base-build nrfmicro/nrf52840 settings_reset
 }
 
 # the first param is a board, the second is a shield
@@ -24,7 +28,7 @@ base-build() ( # use a subshell
         -b $1 \
         -- -DZMK_CONFIG=$WORKPACE_PATH/config \
         -DSHIELD=$2 # build
-    FW_FILE="$WORKPACE_PATH/$BUILD_SUBFOLDER/$2_$1-zmk.uf2"
+    FW_FILE="$WORKPACE_PATH/$BUILD_SUBFOLDER/${2//\//_}_${1//\//_}-zmk.uf2"
     rm -rf $FW_FILE # remove the FW file from the target folder
     mkdir -p $WORKPACE_PATH/$BUILD_SUBFOLDER
     cp build/zephyr/zmk.uf2 $FW_FILE # copy FW to the target folder

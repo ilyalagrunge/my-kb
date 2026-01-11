@@ -22,8 +22,8 @@ So I created this example repo that supports the following features:
 
 ## Using with Github Actions
 
-1. Add all board+shield pairs that you want to build in a CI
-2. If you want, tune `.github/workflows/build.yml` workflow
+1. Add all board+shield pairs that you want to build in a CI. They are located in `./build.yaml`
+2. If you want, tune `.github/workflows/build.yml` workflow. It based on [offical ZMK workflow](https://github.com/zmkfirmware/zmk/blob/main/.github/workflows/build-user-config.yml). 
 3. Push updates of your configs to the repo
 4. Go to `Actions` section of your repo
 5. Open `Build` workflow
@@ -33,7 +33,7 @@ Out of the box Action is triggered by new commits in `main` branch and opened/re
 
 ## Using with local devcontainer
 
-*Tested on Windows 10 with WSL2 and VS Code.*
+*Tested on Windows 10/11 with WSL2 and VS Code.*
 
 This devcontainer is preconfigured to clone and setup ZMK installation within the container and update sources during the launching process. You can edit configuration in `.devcontainer/devcontainer.json`
 
@@ -60,14 +60,14 @@ Define your function like this:
 
 ```
 build-test(){
-    base-build nrfmicro_13 test-board
+    base-build nice_nano test-board
 }
 ```
 
 Where:
 
 - build-test - name of a function
-- nrfmicro_13 - board name
+- nice_nano - board name
 - test-board - shield name
 
 Then you can start building by running the function by its name (`build-test` for example) in a terminal inside the container.
@@ -77,7 +77,19 @@ Compiled UF2 files are located in `build` folder.
 Also you can start building by passing board and shield names as parameters to `base-build` function
 
 ```
-base-build nrfmicro_13 test-board
+base-build nice_nano test-board
 ```
 
 If you update `.bashrc` then you should run `Rebuild container` in Command Palette (Ctrl+Shift+P)
+
+
+# Changelog
+
+## 1.1 - 11.01.2026
+- Boards with `/` in names can be passed to the base-build function.
+- Update board name examples.
+- Use official ZMK actions for building in CI.
+- Tested on zmk-dev-arm:4.1-branch.
+
+## 1.0
+Initial release with CI, Devcontainer and Codespaces support.
